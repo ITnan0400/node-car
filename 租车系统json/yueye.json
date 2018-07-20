@@ -1,0 +1,36 @@
+{
+	"chepaihao":"Yue1",
+	"leixing":"帕杰罗Io",
+	"chename" : "越野",
+	"zhuangtai":"未租出",
+	"zujin":"100"
+},
+{
+	"chepaihao":"Yue2",
+	"leixing":"铃木威特拉",
+"chename" : "越野",
+	"zhuangtai":"未租出",
+	"zujin":"200"
+},
+{
+	"chepaihao":"Yue3",
+	"leixing":"现代途胜",
+"chename" : "越野",
+	"zhuangtai":"未租出",
+	"zujin":"300"
+},
+{
+"chepaihao":"Yue4",
+"leixing":"长城哈佛",
+"chename" : "越野",
+"zhuangtai":"未租出",
+"zujin":"400"
+}
+,
+{
+"chepaihao":"Yue5",
+"chename" : "越野",
+"leixing":"凯迪拉克凯雷德",
+"zhuangtai":"未租出",
+"zujin":"500"
+}

@@ -1,0 +1,58 @@
+{
+	"_id" : ObjectId("5b115e5a0eb22232dc6b0a84"),
+	"chepaihao" : "Ao1",
+	"leixing" : "奥迪A1",
+	"chename" : "奥迪",
+	"zhuangtai" : "未租出",
+	"zujin" : "150"
+},
+{
+	"_id" : ObjectId("5b115e5a0eb22232dc6b0a85"),
+	"chepaihao" : "Ao2",
+"chename" : "奥迪",
+	"leixing" : "奥迪A3",
+	"zhuangtai" : "未租出",
+	"zujin" : "200"
+},
+{
+	"_id" : ObjectId("5b115e5a0eb22232dc6b0a86"),
+	"chepaihao" : "Ao3",
+"chename" : "奥迪",
+	"leixing" : "奥迪A4",
+	"zhuangtai" : "未租出",
+	"zujin" : "300"
+},
+{
+	"_id" : ObjectId("5b115e5a0eb22232dc6b0a87"),
+	"chepaihao" : "Ao4",
+"chename" : "奥迪",
+	"leixing" : "奥迪A5",
+	"zhuangtai" : "未租出",
+	"zujin" : "400"
+},
+{
+	"_id" : ObjectId("5b115e5a0eb22232dc6b0a88"),
+	"chepaihao" : "Ao5",
+"chename" : "奥迪",
+	"leixing" : "奥迪A6",
+	"zhuangtai" : "未租出",
+	"zujin" : "500"
+},
+{
+	"__v" : 0,
+	"_id" : ObjectId("5b12cd5b712c183574d03f15"),
+	"chepaihao" : "2323",
+"chename" : "奥迪",
+	"leixing" : "2323",
+	"zhuangtai" : "未租用",
+	"zujin" : "2323"
+},
+{
+	"__v" : 0,
+	"_id" : ObjectId("5b12ce6b72e12320c4b742cc"),
+	"chename" : "奥迪",
+	"chepaihao" : "666",
+	"leixing" : "唉唉唉",
+	"zhuangtai" : "未租用",
+	"zujin" : "666"
+},

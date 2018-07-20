@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>黑黑租车</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link  href="/css/pqgrid.min.css" rel="stylesheet"/>
+    <link href="/css/jquery-ui.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/css/component.css" />
+    <link rel="stylesheet" type="text/css" href="/css/content.css" />
+    <style>
+        /*body{*/
+            /*background: black;*/
+
+        /*}*/
+        /*.navbar-default .navbar-nav>li>a{*/
+            /*color: white;*/
+        /*}*/
+        /*.navbar-default .navbar-nav>li>a:hover{*/
+            /*color: white;*/
+        /*}*/
+        /*.pq-grid-title{*/
+            /*background: rgba(0, 0, 0, 0.62);*/
+            /*color: white;*/
+        /*}*/
+        /*#grid{*/
+            /*background: black;*/
+            /*color: white;*/
+
+        /*}*/
+        /*tr{*/
+            /*background: black;*/
+        /*}*/
+        /*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{*/
+            /*background: rgba(0, 0, 0, 0.72);*/
+
+        /*}*/
+        /*.ui-widget-header{*/
+            /*background: black;*/
+        /*}*/
+        /*.ui-corner-all{*/
+            /*background: black;*/
+        /*}*/
+        /*#ul_box li  {*/
+            /*border: 1px solid #cccccc;*/
+        /*}*/
+        /*#ul_box li:l租赁时长 ast-child{*/
+            /*border: none;*/
+        /*}*/
+        body{
+            background: url("/images/zu4.jpg");
+            background-size: 100%;
+            opacity: 0.7;
+        }
+        #ul_box li a{
+            color: white;
+            font-weight: bold;
+        }
+        #ul_box li a:hover{
+            background-color: white;
+            color: black;
+        }
+        .btn-primary{
+            background-color: white;
+            border-color: white;
+            color: black;
+        }
+        .kuang input{
+            color: black;
+        }
+        #select3{
+            color: black;
+        }
+        #select3 option{
+            color: black;
+        }
+    </style>
+</head>
+<body style="min-width: 1200px;">
+<nav class="navbar navbar-default" style="margin-top: -50px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">黑黑租车</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li ><a href="/GuanLiIndex">客户查询</a></li>
+                <li class="active"><a href="/zu/zuli">租赁登记</a></li>
+                <li><a href="/zu/guihuan">归还登记</a></li>
+                <li><a href="/zu/tongji">统计分析</a></li>
+                <li><a href="/zu/leibie">类别档案</a></li>
+                <li><a href="/zu/qiche">汽车档案</a></li>
+                <li><a href="/">退出系统</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+
+        <ul class="nav nav-stacked col-lg-2" role="tablist" id="ul_box">
+            <li role="presentation" class="active" data-huan="baoma"><a href="#c1" aria-controls="home" role="tab" data-toggle="tab" >宝马</a></li>
+            <li role="presentation" data-huan="aodi"><a href="#c2" aria-controls="profile" role="tab" data-toggle="tab" onclick="refresh2()">奥迪</a></li>
+            <li role="presentation" data-huan="yueye"><a href="#c3" aria-controls="messages" role="tab" data-toggle="tab" onclick="refresh3()" >越野</a></li>
+            <li role="presentation" data-huan="motuoche"><a href="#c4" aria-controls="settings" role="tab" data-toggle="tab" onclick="refresh4()">摩托车</a></li>
+            <li role="presentation" data-huan="chaopao"><a href="#c5" aria-controls="settings" role="tab" data-toggle="tab" onclick="refresh5()">超跑</a></li>
+            <li role="presentation"> <div class="bs-example bs-example-padded-bottom">
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                添加新车辆
+            </button>
+        </div></li>
+
+        </ul>
+        <div class="tab-content col-lg-10">
+            <div role="tabpanel" class="tab-pane active" id="c1">
+                <section class="grid" style="width:1000px;">
+                    <input type="button" value="删除所选" id="shanchubtn" class="btn btn-danger" style="float:right;" />
+                    <div id="grid" style="margin-top:20px;"></div>
+                    <!--表格end-->
+                </section>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="c2">
+                <section class="grid" style="width:1000px;">
+
+                    <input type="button" value="删除所选" id="shanchubtn2" class="btn btn-danger" style="float:right;" />
+                    <div id="grid2" style="margin-top:20px;"></div>
+                </section>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="c3">
+                <section class="grid" style="width:1000px;">
+
+
+                    <input type="button" value="删除所选" id="shanchubtn3" class="btn btn-danger" style="float:right;" />
+                    <div id="grid3" style="margin-top:20px;"></div>
+                </section>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="c4">
+                <section class="grid" style="width:1000px;">
+
+                    <input type="button" value="删除所选" id="shanchubtn4" class="btn btn-danger" style="float:right;" />
+                    <div id="grid4" style="margin-top:20px;"></div>
+                </section>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="c5">
+                <section class="grid" style="width:1000px;">
+                    <input type="button" value="删除所选" id="shanchubtn5" class="btn btn-danger" style="float:right;" />
+                    <div id="grid5" style="margin-top:20px;"></div>
+                </section>
+            </div>
+
+              <div class="row">
+                   <div class="col-lg-10 col-xs-10 kuang" style="color: white">
+                       <div class="col-lg-12 col-xs-12" style="margin-top: 20px;">
+                           <div class="col-lg-4 col-xs-4">租赁时长 ：<input type="text" class="col-lg-7 col-xs-7"style="float: none" id="tianshu">天</div>
+                           <div class="col-lg-4 col-xs-4">每天租金： <input type="text"  class="col-lg-7 col-xs-7"style="float: none" disabled id="meitian">元</div>
+                           <div class="col-lg-4 col-xs-4">合计金额 ：<input type="text"  class="col-lg-7 col-xs-7"style="float: none" disabled id="heji">元</div>
+
+                       </div>
+                       <div class="col-lg-12 col-xs-12" style="margin-top: 20px">
+                           <div class="col-lg-4 col-xs-4">客人选择 ：
+
+                               <select name="" id="select3">
+
+
+                               </select>天</div>
+                           <div class="col-lg-8 col-xs-8">客人支付： <input type="text" placeholder="加保证金2000以后结果" class="col-lg-9 col-xs-9" style="float: none" id="zhifu" disabled>元</div>
+
+                       </div>
+
+                   </div>
+                  <div class="col-lg-2 col-xs-2 text-center" >
+                      <button type="button" class="btn btn-default btn-lg active" id="Button" style="margin-top: 30px">出租</button>
+
+                  </div>
+              </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!--弹框-->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+
+            <div class="modal-footer ">
+                <form class="form">
+                <p class="text-left">
+                     系类
+                    <select name="" style="width: 100%;height: 40px;" id="select" >
+                        <option value="baoma" data-chename="宝马">宝马</option>
+                        <option value="aodi" data-chename="奥迪">奥迪</option>
+                        <option value="yueye" data-chename="越野">越野</option>
+                        <option value="motuoche" data-chename="摩托车">摩托车</option>
+                        <option value="chaopao" data-chename="超跑">超跑</option>
+                    </select>
+                </p>
+                <p class="text-left">
+                    类型
+                    <input class="form-control" type="text" id="leiTxt"/>
+                </p>
+                <p class="text-left">
+                    车牌号:
+                    <input class="form-control" type="text" id="cheTxt2"/>
+                </p>
+                <p class="text-left">
+                    租用价格:
+                    <input class="form-control" type="number" id="renshuTxt"/>
+                </p>
+                <p class="text-left">
+                    <select name="" id="select2"style="width: 100%;height: 40px;">
+
+                        <option value="未租用">未租用</option>
+                        <option value="租用">租用</option>
+                    </select>
+                </p>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="tijiaoBtn">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/jquery-1.12.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+<script src="/js/modernizr.custom.js"></script>
+<script src="/js/classie.js"></script>
+<script src="/js/uo.js"></script>
+
+<script type="text/javascript">
+
+
+    $("#Button").click(function () {
+        var myDate = new Date();
+        var needToDelete = [];
+        var needToDelete2 = [];
+        $("tr.pq-row-select").each(function(){
+            needToDelete.push($(this).find("td[pq-col-indx=1]").html());
+            needToDelete2.push($(this).find("td[pq-col-indx=0]").html());
+        });
+        needToDelete = _.uniq(needToDelete);
+        needToDelete2 = _.uniq(needToDelete2);
+
+        var datas={
+            "mingcheng":needToDelete2[0],
+            "chepaihao":needToDelete[0],
+            "zuliming":$("#select3 option:selected").val(),
+            "shichang":$("#tianshu").val(),
+            "meitian":$("#meitian").val(),
+            "heji": $("#heji").val(),
+             "zhifu":$("#zhifu").val(),
+             "riqi":myDate.getFullYear()+"-"+parseInt(myDate.getMonth()+1)+"-"+myDate.getDate(),
+            "zhexi":$("#ul_box li[class='active']").attr("data-huan"),
+            "caozuoyuan":"000000"
+        };
+        $.ajax({
+            "url":"/tongji",
+            "data":datas,
+            "type":"post",
+            "success":function (data) {
+                if(data.results==1){
+                    alert("出租成功")
+                }
+                else{
+                    alert("出租失败")
+                }
+            }
+        })
+
+
+    });
+       $("#tianshu").keyup(function () {
+             var data_huan= $("#ul_box li[class='active']").attr("data-huan");
+             console.log(data_huan)
+              var needToDelete = [];
+              $("tr.pq-row-select").each(function(){
+                  needToDelete.push($(this).find("td[pq-col-indx=1]").html());
+              });
+
+              needToDelete = _.uniq(needToDelete);
+           if(needToDelete.length==0){
+               $("#tianshu").val("");
+               alert("请先选择租用车辆")
+               return
+           }
+              $.post("/suan",{
+                  needToDelete :JSON.stringify(needToDelete),
+                  "che":data_huan
+              },function (data) {
+                  var  tianshu=$("#tianshu").val();
+                  var  jisuan= parseInt(data.results)*tianshu;
+                  $("#meitian").val(data.results);
+                  $("#heji").val(jisuan);
+                  var  baozheng=jisuan+2000 ;
+                  $("#zhifu").val(baozheng)
+
+              })
+          });
+   // 宝马
+   $("body").append("<script src='/js/jquery-ui.min.js'>"+"</"+"script>");
+   $("body").append("<script src='/js/pqgrid.min.js'>"+"</"+"script>");
+    refresh();
+    function refresh() {
+        //数据
+        $.get("/allcar",{z:Math.random()}, function (data) {
+            //用ajax拿到结果
+            var dataobj = data.results;
+            //配置表格
+            $("#grid").pqGrid({
+                width: 1000,
+                height: 300,
+                title: "租赁登记",
+                resizable: false,
+                draggable: false,
+                dataModel: {
+                    data: dataobj  //填充数据
+                },
+                selectionModel: { type: 'none', subtype:'incr', cbHeader:true, cbAll:true},
+                pageModel: { type: "local", rPP: 5, strRpp: "{0}", strDisplay: "{0} to {1} of {2}" },
+                colModel: [
+                    // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                    {title: "汽车名称", width: 250, dataType: "array", dataIndx: "leixing"},
+                    {title: "车牌号", width: 250, dataType: "array", dataIndx: "chepaihao",editable:false},
+                    {title: "每天租金", width: 200, dataType: "array", dataIndx: "zujin"},
+                    {title: "可租状态", width: 233, dataType: "array", dataIndx: "zhuangtai"},
+                    { title: "", dataIndx: "state", width: 30, minWidth:30, align: "center", type:'checkBoxSelection', cls: 'ui-state-default', resizable: false, sortable:false }
+                ],
+                //用户编辑单元格结束之后做的事情
+                cellSave: function (event, ui) {
+                    // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+                    $.post("/baocunche", ui.rowData, function (data) {
+
+                    });
+                }
+            });
+
+        });
+    }
+    $("#shanchubtn").click(function(){
+
+        //除以2，这是因为paramquery这个框架有点小问题，会重复算tr两次
+        var amount = $("tr.pq-row-select").length / 2;
+
+        var boolean = confirm("确认要删除" + amount + "条目么？");
+        if(!boolean){
+            return;
+        }
+        //要删除的元素的_id的数组
+        var needToDelete = [];
+        //遍历，找到要删除的元素的_id，放入数组，集体发给模型，进行集体删除！
+        $("tr.pq-row-select").each(function(){
+            needToDelete.push($(this).find("td[pq-col-indx=1]").html());
+            // console.log(needToDelete);
+        });
+        //去重，这是因为paramquery这个框架有点小问题，会重复算tr两次
+        needToDelete = _.uniq(needToDelete);
+        //发出Ajax请求
+        $.post("/DeleteUser",{
+            needToDelete : JSON.stringify(needToDelete),
+            "che":"baoma"
+        },function(data){
+
+            if(data.result == -1){
+                alert("删除错误！服务器故障，请联系18883248234");
+            }else{
+                alert("成功删除" + data.result + "条");
+                $("tr.pq-row-select").slideUp();
+            }
+        });
+    });
+
+
+
+
+   // 奥迪
+   function refresh2() {
+       //数据
+       $.get("/allcar2",{z:Math.random()}, function (data) {
+           //用ajax拿到结果
+           var dataobj = data.results;
+           //配置表格
+           $("#grid2").pqGrid({
+               width: 1000,
+               height: 300,
+               title: "租赁登记",
+               resizable: false,
+               draggable: false,
+               dataModel: {
+                   data: dataobj  //填充数据
+               },
+               selectionModel: { type: 'none', subtype:'incr', cbHeader:true, cbAll:true},
+               pageModel: { type: "local", rPP: 5, strRpp: "{0}", strDisplay: "{0} to {1} of {2}" },
+               colModel: [
+                   // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                   {title: "汽车名称", width: 250, dataType: "array", dataIndx: "leixing"},
+                   {title: "车牌号", width: 250, dataType: "array", dataIndx: "chepaihao",editable:false},
+                   {title: "每天租金", width: 200, dataType: "array", dataIndx: "zujin"},
+                   {title: "可租状态", width: 233, dataType: "array", dataIndx: "zhuangtai"},
+                   { title: "", dataIndx: "state", width: 30, minWidth:30, align: "center", type:'checkBoxSelection', cls: 'ui-state-default', resizable: false, sortable:false }
+               ],
+               //用户编辑单元格结束之后做的事情
+               cellSave: function (event, ui) {
+                   // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+                   $.post("/baocunche2", ui.rowData, function (data) {
+
+                   });
+               }
+           });
+
+       });
+   }
+   $("#shanchubtn2").click(function(){
+       //除以2，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       var amount = $("tr.pq-row-select").length / 2;
+
+       var boolean = confirm("确认要删除" + amount + "条目么？");
+
+       if(!boolean){
+           return;
+       }
+
+       //要删除的元素的_id的数组
+       var needToDelete = [];
+       //遍历，找到要删除的元素的_id，放入数组，集体发给模型，进行集体删除！
+       $("tr.pq-row-select").each(function(){
+           needToDelete.push($(this).find("td[pq-col-indx=1]").html());
+       });
+       //去重，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       needToDelete = _.uniq(needToDelete);
+       //发出Ajax请求
+       $.post("/DeleteUser",{
+           needToDelete : JSON.stringify(needToDelete),
+           "che":"aodi"
+       },function(data){
+           if(data.result == -1){
+               alert("删除错误！服务器故障，请联系18883248234");
+           }else{
+               alert("成功删除" + data.result + "条");
+               $("tr.pq-row-select").slideUp();
+           }
+       });
+   });
+
+   // 越野
+   function refresh3() {
+       //数据
+       $.get("/allcar3",{z:Math.random()}, function (data) {
+           //用ajax拿到结果
+           var dataobj = data.results;
+           //配置表格
+           $("#grid3").pqGrid({
+               width: 1000,
+               height: 300,
+               title: "租赁登记",
+               resizable: false,
+               draggable: false,
+               dataModel: {
+                   data: dataobj  //填充数据
+               },
+               selectionModel: { type: 'none', subtype:'incr', cbHeader:true, cbAll:true},
+               pageModel: { type: "local", rPP: 5, strRpp: "{0}", strDisplay: "{0} to {1} of {2}" },
+               colModel: [
+                   // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                   {title: "汽车名称", width: 250, dataType: "array", dataIndx: "leixing"},
+                   {title: "车牌号", width: 250, dataType: "array", dataIndx: "chepaihao",editable:false},
+                   {title: "每天租金", width: 200, dataType: "array", dataIndx: "zujin"},
+                   {title: "可租状态", width: 233, dataType: "array", dataIndx: "zhuangtai"},
+                   { title: "", dataIndx: "state", width: 30, minWidth:30, align: "center", type:'checkBoxSelection', cls: 'ui-state-default', resizable: false, sortable:false }
+               ],
+               //用户编辑单元格结束之后做的事情
+               cellSave: function (event, ui) {
+                   // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+                   $.post("/baocunche3", ui.rowData, function (data) {
+
+                   });
+               }
+           });
+
+       });
+   }
+   $("#shanchubtn3").click(function(){
+       //除以2，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       var amount = $("tr.pq-row-select").length / 2;
+
+       var boolean = confirm("确认要删除" + amount + "条目么？");
+
+       if(!boolean){
+           return;
+       }
+
+       //要删除的元素的_id的数组
+       var needToDelete = [];
+       //遍历，找到要删除的元素的_id，放入数组，集体发给模型，进行集体删除！
+       $("tr.pq-row-select").each(function(){
+           needToDelete.push($(this).find("td[pq-col-indx=1]").html());
+       });
+       //去重，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       needToDelete = _.uniq(needToDelete);
+       //发出Ajax请求
+       $.post("/DeleteUser",{
+           needToDelete : JSON.stringify(needToDelete),
+           "che":"yueye"
+       },function(data){
+           if(data.result == -1){
+               alert("删除错误！服务器故障，请联系18883248234");
+           }else{
+               alert("成功删除" + data.result + "条");
+               $("tr.pq-row-select").slideUp();
+           }
+       });
+   });
+
+// 摩托车
+   function refresh4() {
+       //数据
+       $.get("/allcar4",{z:Math.random()}, function (data) {
+           //用ajax拿到结果
+           var dataobj = data.results;
+           //配置表格
+           $("#grid4").pqGrid({
+               width: 1000,
+               height: 300,
+               title: "租赁登记",
+               resizable: false,
+               draggable: false,
+               dataModel: {
+                   data: dataobj  //填充数据
+               },
+               selectionModel: { type: 'none', subtype:'incr', cbHeader:true, cbAll:true},
+               pageModel: { type: "local", rPP: 5, strRpp: "{0}", strDisplay: "{0} to {1} of {2}" },
+               colModel: [
+                   // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                   {title: "汽车名称", width: 250, dataType: "array", dataIndx: "leixing"},
+                   {title: "车牌号", width: 250, dataType: "array", dataIndx: "chepaihao",editable:false},
+                   {title: "每天租金", width: 200, dataType: "array", dataIndx: "zujin"},
+                   {title: "可租状态", width: 233, dataType: "array", dataIndx: "zhuangtai"},
+                   { title: "", dataIndx: "state", width: 30, minWidth:30, align: "center", type:'checkBoxSelection', cls: 'ui-state-default', resizable: false, sortable:false }
+               ],
+               //用户编辑单元格结束之后做的事情
+               cellSave: function (event, ui) {
+                   // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+                   $.post("/baocunche4", ui.rowData, function (data) {
+
+                   });
+               }
+           });
+
+       });
+   }
+   $("#shanchubtn4").click(function(){
+       //除以2，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       var amount = $("tr.pq-row-select").length / 2;
+
+       var boolean = confirm("确认要删除" + amount + "条目么？");
+
+       if(!boolean){
+           return;
+       }
+
+       //要删除的元素的_id的数组
+       var needToDelete = [];
+       //遍历，找到要删除的元素的_id，放入数组，集体发给模型，进行集体删除！
+       $("tr.pq-row-select").each(function(){
+           needToDelete.push($(this).find("td[pq-col-indx=1]").html());
+       });
+       //去重，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       needToDelete = _.uniq(needToDelete);
+       //发出Ajax请求
+       $.post("/DeleteUser",{
+           needToDelete : JSON.stringify(needToDelete),
+           "che":"motuoche"
+       },function(data){
+           if(data.result == -1){
+               alert("删除错误！服务器故障，请联系18883248234");
+           }else{
+               alert("成功删除" + data.result + "条");
+               $("tr.pq-row-select").slideUp();
+           }
+       });
+   });
+
+
+
+   // 超跑
+   function refresh5() {
+       //数据
+       $.get("/allcar5",{z:Math.random()}, function (data) {
+           //用ajax拿到结果
+           var dataobj = data.results;
+           //配置表格
+           $("#grid5").pqGrid({
+               width: 1000,
+               height: 300,
+               title: "租赁登记",
+               resizable: false,
+               draggable: false,
+               dataModel: {
+                   data: dataobj  //填充数据
+               },
+               selectionModel: { type: 'none', subtype:'incr', cbHeader:true, cbAll:true},
+               pageModel: { type: "local", rPP: 5, strRpp: "{0}", strDisplay: "{0} to {1} of {2}" },
+               colModel: [
+                   // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                   {title: "汽车名称", width: 250, dataType: "array", dataIndx: "leixing"},
+                   {title: "车牌号", width: 250, dataType: "array", dataIndx: "chepaihao",editable:false},
+                   {title: "每天租金", width: 200, dataType: "array", dataIndx: "zujin"},
+                   {title: "可租状态", width: 233, dataType: "array", dataIndx: "zhuangtai"},
+                   { title: "", dataIndx: "state", width: 30, minWidth:30, align: "center", type:'checkBoxSelection', cls: 'ui-state-default', resizable: false, sortable:false }
+               ],
+               //用户编辑单元格结束之后做的事情
+               cellSave: function (event, ui) {
+                   // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+                   $.post("/baocunche5", ui.rowData, function (data) {
+
+                   });
+               }
+           });
+
+       });
+   }
+   $("#shanchubtn5").click(function(){
+       //除以2，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       var amount = $("tr.pq-row-select").length / 2;
+
+       var boolean = confirm("确认要删除" + amount + "条目么？");
+
+       if(!boolean){
+           return;
+       }
+
+       //要删除的元素的_id的数组
+       var needToDelete = [];
+       //遍历，找到要删除的元素的_id，放入数组，集体发给模型，进行集体删除！
+       $("tr.pq-row-select").each(function(){
+           needToDelete.push($(this).find("td[pq-col-indx=1]").html());
+       });
+       //去重，这是因为paramquery这个框架有点小问题，会重复算tr两次
+       needToDelete = _.uniq(needToDelete);
+       //发出Ajax请求
+       $.post("/DeleteUser",{
+           needToDelete : JSON.stringify(needToDelete),
+           "che":"chaopao"
+       },function(data){
+           if(data.result == -1){
+               alert("删除错误！服务器故障，请联系18883248234");
+           }else{
+               alert("成功删除" + data.result + "条");
+               $("tr.pq-row-select").slideUp();
+           }
+       });
+   });
+</script>
+
+<script>
+    $("#tijiaoBtn").click(function () {
+              $.ajax({
+                  "url":"/BaoCunShuJu",
+                  "type":"post",
+                   "data":{
+                       "leixi":$("#select option:selected").val(),
+                       "chename":$("#select option:selected").attr("data-chename"),
+                       "leixing":$("#leiTxt").val(),
+                       "chepaihao":$("#cheTxt2").val(),
+                       "zujin":$("#renshuTxt").val(),
+                       "zhuangtai":$("#select2 option:selected").text(),
+                   }
+              })
+        window.location="/zu/zuli";
+
+    })
+      $.get("/qingqiukefu",function (data) {
+           var datajson=data.results;
+           $.each(datajson,function (neiron,data) {
+              $("#select3").append($("<option value='"+data+"'>"+data+"</option>"))
+           })
+      })
+
+
+
+
+</script>
+</body>
+</html>

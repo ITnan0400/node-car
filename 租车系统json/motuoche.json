@@ -1,0 +1,36 @@
+{
+	"chepaihao":"Mo1",
+	"leixing":"豪爵",
+	"chename" : "摩托车",
+	"zhuangtai":"未租出",
+	"zujin":"400"
+},
+{
+	"chepaihao":"Mo2",
+	"leixing":"隆鑫",
+"chename" : "摩托车",
+	"zhuangtai":"未租出",
+	"zujin":"700"
+},
+{
+	"chepaihao":"Mo3",
+	"leixing":"力帆",
+"chename" : "摩托车",
+	"zhuangtai":"未租出",
+	"zujin":"900"
+},
+{
+"chepaihao":"Mo4",
+"leixing":"大阳",
+"chename" : "摩托车",
+"zhuangtai":"未租出",
+"zujin":"1000"
+}
+,
+{
+"chepaihao":"Mo5",
+"leixing":"嘉陵",
+"chename" : "摩托车",
+"zhuangtai":"未租出",
+"zujin":"1200"
+}

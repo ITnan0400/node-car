@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>黑黑租车</title>
+    <style>
+        .xuanze{
+            /*background-color: red;*/
+            cursor: pointer;
+            /*content: "2323";*/
+        }
+        td[pq-grid-col-indx="8"]::before{
+            content: "";
+        }
+        td[pq-grid-col-indx="8"]:hover{
+            background: #eeeeee;
+        }
+        .xuanze::before{
+            content: "点击";
+        }
+        .xuanze:hover{
+            background: gainsboro;
+        }
+        body{
+            background: url("/images/zu5.jpg");
+            background-size: 100%;
+            opacity: 0.7;
+        }
+        .kuang p input{
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/dashboard.css" rel="stylesheet">
+<link  href="/css/pqgrid.min.css" rel="stylesheet"/>
+<link href="/css/jquery-ui.css" rel="stylesheet"/>
+
+
+<nav class="navbar navbar-default" style="margin-top: -50px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">黑黑租车</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="/GuanLiIndex">客户查询</a></li>
+                <li><a href="/zu/zuli">租赁登记</a></li>
+                <li class="active"><a href="/zu/guihuan">归还登记</a></li>
+                <li><a href="/zu/tongji">统计分析</a></li>
+                <li><a href="/zu/leibie">类别档案</a></li>
+                <li><a href="/zu/qiche">汽车档案</a></li>
+                <li><a href="/">退出系统</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<section class="grid" style="width:1000px;">
+    <div id="guihuan" style="margin-top:20px;"></div>
+    <!--表格end-->
+    <div class="kuang" style="color: white">
+        <p>
+            <label>共付金额</label>
+            <input type="text" disabled value="" id="yifu">
+        </p>
+        <p>
+            <label>应付金额</label>
+            <input type="text" disabled value="" id="yingfu">
+        </p>
+        <p>
+            <label>找零金额</label>
+            <input type="text" disabled value="" id="zhaoling">
+        </p>
+    </div>
+    <input type="button" value="归还" id="shanchubtn" class="btn btn-success"  />
+</section>
+
+
+
+
+<script src="/js/jquery-1.12.3.min.js"></script>
+<!--<script src="/js/jquery-ui.min.js"></script>-->
+<!--<script src="/js/pqgrid.min.js"></script>-->
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+<script>
+
+
+    $(function () {
+        refresh();
+        $("body").append("<script src='/js/jquery-ui.min.js'>" + "</" + "script>");
+        $("body").append("<script src='/js/pqgrid.min.js'>" + "</" + "script>");
+
+        function refresh() {
+            //数据
+            $.get("/guihuanuser", {z: Math.random()}, function (data) {
+                //用ajax拿到结果
+                var dataobj = data.results;
+                //配置表格
+                $("#guihuan").pqGrid({
+                    width: 1200,
+                    height: 300,
+                    title: "归还登记",
+                    resizable: false,
+                    draggable: false,
+                    dataModel: {
+                        data: dataobj  //填充数据
+                    },
+                    selectionModel: {type: 'none', subtype: 'incr', cbHeader: true, cbAll: true},
+                    pageModel: {type: "local", rPP: 5, strRpp: "{0}", strDisplay: "{0} to {1} of {2}"},
+                    colModel: [
+                        // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                        {title: "租赁人", width: 130, dataType: "string", dataIndx: "zuliming",editable:false},
+                        {title: "租赁名称", width: 130, dataType: "string", dataIndx: "mingcheng",editable:false},
+                        {title: "车牌号", width: 130, dataType: "string", dataIndx: "chepaihao",editable:false},
+                        {title: "租赁时长/天", width: 130, dataType: "string", dataIndx: "shichang",editable:false},
+                        {title: "每天价格", width: 130, dataType: "string", dataIndx: "meitian"},
+                        {title: "应付金额", width: 130, dataType: "string", dataIndx: "heji"},
+                        {title: "共付金额", width: 130, dataType: "string", dataIndx: "zhifu",editable:false},
+                        {title: "操作员", width: 150, dataType: "string", dataIndx: "caozuoyuan",editable:false},
+                        { title: "", dataIndx: "qwe", width: 30, minWidth:60, align: "center", type:'text',cls: 'xuanze',editable:false,resizable: false, sortable:false}
+                    ],
+                    //用户编辑单元格结束之后做的事情
+                    cellSave: function (event, ui) {
+                        // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+                        // $.post("/baocun", ui.rowData, function (data) {
+                        // window.location="/zu/zuli";
+                        // });
+                    }
+                });
+
+            });
+        }
+
+        var arr=[];
+        $(document).on("click", "td", function(){
+            arr=[];
+            var shuju2=$(this).parents('tr').children();
+            for(var i=0;i<shuju2.length;i++){
+                arr.push(shuju2[i].innerText);
+            }
+            $("#yifu").val(arr[7]);
+            $("#yingfu").val(arr[6]);
+            $("#zhaoling").val(arr[7]-arr[6]);
+
+        });
+        $("#shanchubtn").click(function () {
+            $.get("/guihuan/"+arr[3],function (data) {
+                if(data.results==-1){
+                   alert("归还失败")
+                }
+                else{
+                    window.location="/zu/guihuan"
+                    alert("归还成功")
+                }
+            })
+        })
+
+    });
+
+
+
+
+</script>
+
+</body>
+</html>

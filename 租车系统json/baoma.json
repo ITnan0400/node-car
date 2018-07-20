@@ -1,0 +1,36 @@
+{
+	"chepaihao":"Bao1",
+	"leixing":"宝马X1",
+	"chename" : "宝马",
+	"zhuangtai":"未租出",
+	"zujin":"150"
+},
+{
+	"chepaihao":"Bao2",
+	"leixing":"宝马X2",
+"chename" : "宝马",
+	"zhuangtai":"未租出",
+	"zujin":"200"
+},
+{
+	"chepaihao":"Bao3",
+"chename" : "宝马",
+	"leixing":"宝马X3",
+	"zhuangtai":"未租出",
+	"zujin":"250"
+},
+{
+"chepaihao":"Bao4",
+"chename" : "宝马",
+"leixing":"宝马X4",
+"zhuangtai":"未租出",
+"zujin":"300"
+}
+,
+{
+"chepaihao":"Bao5",
+"chename" : "宝马",
+"leixing":"宝马X5",
+"zhuangtai":"未租出",
+"zujin":"350"
+}

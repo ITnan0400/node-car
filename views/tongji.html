@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>黑黑租车</title>
+    <STYLE>
+        body{
+            background: url("/images/zu7.jpg");
+            background-size: 100%;
+            opacity: 0.8;
+            overflow: hidden;
+        }
+        #main{
+            color: red;
+        }
+    </STYLE>
+</head>
+<body>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/dashboard.css" rel="stylesheet">
+<link  href="/css/pqgrid.min.css" rel="stylesheet"/>
+<link href="/css/jquery-ui.css" rel="stylesheet"/>
+<link href="/css/font-awesome.css" rel="stylesheet" />
+
+
+<nav class="navbar navbar-default" style="margin-top: -50px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">黑黑租车</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="/GuanLiIndex">客户查询</a></li>
+                <li><a href="/zu/zuli">租赁登记</a></li>
+                <li><a href="/zu/guihuan">归还登记</a></li>
+                <li class="active"><a href="/zu/tongji">统计分析</a></li>
+                <li><a href="/zu/leibie">类别档案</a></li>
+                <li><a href="/zu/qiche">汽车档案</a></li>
+                <li><a href="/">退出系统</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<section class="grid" style="width:1000px;">
+    <div id="guihuan" style="margin-top:20px;"></div>
+    <div id="main" style="width:100%;height:400px;overflow: auto"></div>
+</section>
+
+
+<script src="/js/jquery-1.12.3.min.js"></script>
+<!--<script src="/js/jquery-ui.min.js"></script>-->
+<!--<script src="/js/pqgrid.min.js"></script>-->
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/echarts.min.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+<script>
+
+    var mycahrts=echarts.init(document.getElementById("main"));
+    $(function () {
+        refresh();
+        $("body").append("<script src='/js/jquery-ui.min.js'>" + "</" + "script>");
+        $("body").append("<script src='/js/pqgrid.min.js'>" + "</" + "script>");
+        function refresh() {
+            //数据
+            $.get("/guihuanuser", {z: Math.random()}, function (data) {
+                //用ajax拿到结果
+                var dataobj = data.results;
+                console.log(dataobj)
+                //配置表格
+                $("#guihuan").pqGrid({
+                    width: 1340,
+                    height: 300,
+                    title: "租出登记",
+                    resizable: false,
+                    draggable: false,
+                    dataModel: {
+                        data: dataobj  //填充数据
+                    },
+                    selectionModel: {type: 'none', subtype: 'incr', cbHeader: true, cbAll: true},
+                    pageModel: {type: "local", rPP: 5, strRpp: "{0}", strDisplay: "{0} to {1} of {2}"},
+                    colModel: [
+                        // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                        {title: "租赁名称", width: 170, dataType: "string", dataIndx: "mingcheng",editable:false},
+                        {title: "租赁人", width: 170, dataType: "string", dataIndx: "zuliming",editable:false},
+                        // {title: "车牌号", width: 130, dataType: "string", dataIndx: "chepaihao",editable:false},
+                        {title: "租赁时长/天", width: 170, dataType: "string", dataIndx: "shichang",editable:false},
+                        {title: "每天价格", width: 170, dataType: "string", dataIndx: "meitian"},
+                        {title: "合计金额", width: 170, dataType: "string", dataIndx: "heji"},
+                        {title: "租赁日期", width: 170, dataType: "string", dataIndx: "riqi"},
+                        {title: "已付金额", width: 140, dataType: "string", dataIndx: "zhifu",editable:false},
+                        {title: "操作员", width: 130, dataType: "string", dataIndx: "caozuoyuan",editable:false},
+
+                    ],
+                    //用户编辑单元格结束之后做的事情
+                    cellSave: function (event, ui) {
+
+                    }
+                });
+                var a=0;
+                var b=0;
+                var c=0;
+                var d=0;
+                var e=0;
+                for(var i=0;i<dataobj.length;i++){
+                    if(dataobj[i].zhexi=="baoma"){
+                        a+=1;
+                    }else if(dataobj[i].zhexi=="aodi"){
+                        b+=1;
+                    }else if(dataobj[i].zhexi=="yueye"){
+                        c+=1;
+                    }else if(dataobj[i].zhexi=="motuoche"){
+                        d+=1;
+                    }else if(dataobj[i].zhexi=="chaopao"){
+                        e+=1;
+                    }
+                }
+
+                var option = {
+                    tooltip: {
+                        trigger: 'item',
+                        color:'white',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        x: 'left',
+                        data:['宝马系列','奥迪系列','越野系列','摩托车系列','超跑系列']
+                    },
+                    series: [
+                        {
+                            name:'租车类型人数比列',
+                            type:'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data:[
+                                {value:a, name:'宝马系列'},
+                                {value:b, name:'奥迪系列'},
+                                {value:c, name:'越野系列'},
+                                {value:d, name:'摩托车系列'},
+                                {value:e, name:'超跑系列'}
+                            ]
+                        }
+                    ]
+                };
+                mycahrts.setOption(option);
+                })
+        }
+
+    });
+</script>
+
+</body>
+</html>

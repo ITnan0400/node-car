@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>注册</title>
+</head>
+<body>
+<link href="/css/bootstrap.min.css" rel="stylesheet"/>
+
+<link href="/css/dashboard.css" rel="stylesheet"/>
+<style>
+    em.r{
+        display: inline-block;
+        width:20px;
+        height: 20px;
+        background-color: yellowgreen;
+        color:white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+    }
+    em.w{
+        display: inline-block;
+        width:20px;
+        height: 20px;
+        background-color: red;
+        color:white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+    }
+</style>
+
+
+<nav class="navbar navbar-default" style="margin-top: -50px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">黑黑租车</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li><a href=" ">注册</a></li>-->
+                <li><a href="/">登陆</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="col-lg-4">
+        <h1>添加用户</h1>
+        <form>
+            <div class="form-group">
+                <label for="yonghuming">用户名</label>
+                <input type="text" class="form-control" name="yonghuming" id="yonghuming" placeholder="用户名不能是数字">
+                <em class=""></em>
+                <span class="explain"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="shenfenzheng">身份证</label>
+                <input type="text" class="form-control" name="shenfenzheng" id="shenfenzheng" placeholder="身份证不能少于18位">
+                <em class=""></em>
+                <span class="explain"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="shenfenzheng">手机号</label>
+                <input type="text" class="form-control" name="shoujihao" id="shoujihao" placeholder="手机号">
+                <em class=""></em>
+                <span class="explain"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="mima">密码</label>
+                <input type="password" class="form-control" name="mima" id="mima" placeholder="密码最少6位">
+                <em class=""></em>
+                <span class="explain"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="querenmima">确认密码</label>
+                <input type="password" class="form-control" id="querenmima" placeholder="请重复输入">
+                <em class=""></em>
+                <span class="explain"></span>
+            </div>
+
+            <button type="button" class="btn btn-default" id="zhuce">添加</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/jquery-1.12.3.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    var yonghumingcheck = false;
+    var mimacheck = false;
+    var shoujihaocheck=false;
+    var querencheck = false;
+    var sfzcheck=false;
+
+    //离开用户名
+    $("#yonghuming").blur(function(){
+        var yonghuming = $(this).val();
+        //正则
+        if(/[\!\@\$\<\>\*\.\^]/.test(yonghuming)){
+            $(this).siblings("em").attr("class","w").html("X");
+            $(this).siblings(".explain").html("用户名中有非法字符");
+            yonghumingcheck = false;
+            return;
+        }
+        if(/^[0-9]+$/.test(yonghuming)){
+            $(this).siblings("em").attr("class","w").html("x");
+            $(this).siblings(".explain").html("输入不能为数字");
+            yonghumingcheck = false;
+            return;
+        }
+        else{
+            $(this).siblings("em").attr("class","r").html("√");
+            $(this).siblings(".explain").html("输入合法");
+            yonghumingcheck = true;
+        }
+        //Ajax验证用户名是否被占用
+        // var $this = $(this);
+        // $.get("/checkuserexist?shenfenzheng=" + yonghuming , function(data){
+        //     if(data.result == -1){
+        //         $this.siblings("em").attr("class","w").html("x");
+        //         $this.siblings(".explain").html("用户名被占用");
+        //         yonghumingcheck = false;
+        //     }
+        //     else{
+        //         $this.siblings("em").attr("class","r").html("√");
+        //         $this.siblings(".explain").html("用户名可以使用");
+        //         yonghumingcheck = true;
+        //     }
+        // });
+    });
+
+    // 身份证
+    $("#shenfenzheng").blur(function(){
+        var shenfenzheng = $(this).val();
+        $.get("/yanzheng/"+shenfenzheng,function (data) {
+            if(data.result==-1){
+                $("#shenfenzheng").siblings("em").attr("class","w").html("x");
+                $("#shenfenzheng").siblings(".explain").html("身份证格式不正确！");
+                sfzcheck = false;
+                // return;
+            }
+            else if (data.result == 1) {
+                console.log("yes")
+                $("#shenfenzheng").siblings("em").attr("class","r").html("√");
+                $("#shenfenzheng").siblings(".explain").html("身份证正确！");
+                sfzcheck = true;
+            }
+        })
+    });
+    $("#shoujihao").blur(function () {
+        var shoujihao = $(this).val();
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(shoujihao)) {
+            $(this).siblings("em").attr("class","w").html("x");
+            $(this).siblings(".explain").html("手机号格式不正确！");
+            shoujihaocheck = false;
+            return;
+        } else {
+            $(this).siblings("em").attr("class","r").html("√");
+            $(this).siblings(".explain").html("手机号正确！");
+            shoujihaocheck = true;
+        }
+    });
+
+    //密码的验证
+    $("#mima").blur(function(){
+        var mima = $(this).val();
+        //正则
+        if(mima.length < 6){
+            $(this).siblings("em").attr("class","w").html("x");
+            $(this).siblings(".explain").html("密码长度不够！");
+            mimacheck = false;
+            return;
+        }
+        else{
+            $(this).siblings("em").attr("class","r").html("√");
+            $(this).siblings(".explain").html("密码合法！");
+            mimacheck = true;
+        }
+    });
+
+    //确认密码的验证
+    $("#querenmima").blur(function(){
+        var querenmima = $(this).val();
+        var mima = $("#mima").val();
+        //正则
+        if(querenmima != mima){
+            $(this).siblings("em").attr("class","w").html("x");
+            $(this).siblings(".explain").html("填写不一致！请重试");
+            querencheck = false;
+            return;
+        }else{
+            $(this).siblings("em").attr("class","r").html("√");
+            $(this).siblings(".explain").html("密码一致");
+            querencheck = true;
+            return;
+        }
+    });
+
+    $("input[type=text],input[type=password]").focus(function(){
+        $(this).siblings("em").attr("class","").html("");
+        $(this).siblings(".explain").html("");
+    });
+
+    $("#zhuce").click(function(){
+        var str = $("form").serialize();
+        if(querencheck && mimacheck && shoujihaocheck && sfzcheck && yonghumingcheck){
+            $.post("/doreg",str,function(data){
+                if(data.result == 1){
+                    alert("恭喜，注册成功！");
+                    // window.location = "/useradmin";
+                }
+                else if(data.result == -1){
+                    alert("抱歉，用户名被占用了！");
+                }
+                else if(data.result == -2){
+                    alert("抱歉，服务器坏了，等等吧！！");
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

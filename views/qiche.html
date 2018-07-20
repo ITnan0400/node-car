@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>黑黑租车</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link  href="/css/pqgrid.min.css" rel="stylesheet"/>
+    <link href="/css/jquery-ui.css" rel="stylesheet"/>
+    <style>
+        body{
+            background: url("/images/zu9.jpg");
+            background-size: 100%;
+            opacity: 0.8;
+        }
+        table tr td{
+            width: 200px;
+        }
+        .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+            /*border-top: none;*/
+            border-top: 1px solid gray;
+        }
+    </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-default" style="margin-top: -50px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">黑黑租车</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="/GuanLiIndex">客户查询</a></li>
+                <li><a href="/zu/zuli">租赁登记</a></li>
+                <li><a href="/zu/guihuan">归还登记</a></li>
+                <li><a href="/zu/tongji">统计分析</a></li>
+                <li><a href="/zu/leibie">类别档案</a></li>
+                <li class="active"><a href="/zu/qiche">汽车档案</a></li>
+                <li><a href="/">退出系统</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<div class="table-responsive">
+    <table class="table " style="color: white;">
+        <tr>
+            <td>所属类型</td>
+            <td>汽车名称</td>
+            <td>租赁价格</td>
+            <td>车牌号</td>
+        </tr>
+
+
+
+    </table>
+</div>
+
+
+
+<script src="/js/jquery-1.12.3.min.js"></script>
+<!--<script src="/js/jquery-ui.min.js"></script>-->
+<!--<script src="/js/pqgrid.min.js"></script>-->
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+<script>
+
+
+    $(function () {
+        $.get("/qichedangan",function (data) {
+            console.log(data.results[0])
+            for(var i=0;i<data.results.length;i++){
+                var tr=$("<tr></tr>");
+
+
+                var td=$("<td>"+data.results[i].chename+"</td><td>"+data.results[i].leixing+"</td><td>"+data.results[i].zujin+"</td><td>"+data.results[i].chepaihao+"</td>")
+                tr.append(td)
+                $("table").append(tr);
+            }
+
+        })
+
+
+
+
+
+        // refresh();
+        // $("body").append("<script src='/js/jquery-ui.min.js'>" + "</" + "script>");
+        // $("body").append("<script src='/js/pqgrid.min.js'>" + "</" + "script>");
+        //
+        // function refresh() {
+        //     //数据
+        //     $.get("/qichedangan", {z: Math.random()}, function (data) {
+        //         //用ajax拿到结果
+        //         var dataobj = data.results;
+        //         console.log(dataobj);
+        //         for(var i=0;i<dataobj.length;i++){
+        //            for(var f=0;f<dataobj[i][0].length;f++){
+        //                console.log(1);
+        //            //      $("<tr></tr>").appendTo("table");
+        //                // console.log(dataobj[i][0]);
+        //                // var tds=$("<td>"+dataobj[i][f]+"</td>").appendTo(trs);
+        //            }
+        //         }
+        //         //配置表格
+        //         // $("#guihuan").pqGrid({
+        //         //     width: 1200,
+        //         //     height: 500,
+        //         //     title: "汽车档案",
+        //         //     resizable: false,
+        //         //     draggable: false,
+        //         //     dataModel: {
+        //         //         data: dataobj[0]  //填充数据
+        //         //     },
+        //         //     selectionModel: {type: 'none', subtype: 'incr', cbHeader: true, cbAll: true},
+        //         //     pageModel: {type: "local", rPP: 10, strRpp: "{0}", strDisplay: "{0} to {1} of {2}"},
+        //         //     colModel: [
+        //         //         // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+        //         //         {title: "汽车名称", width: 250, dataType: "array", dataIndx: "leixing"},
+        //         //         {title: "所属类型", width: 250, dataType: "array", dataIndx: "chename"},
+        //         //         {title: "租赁价格", width: 250, dataType: "array", dataIndx: "zujin"},
+        //         //         {title: "计量单位", width: 250, dataType: "天", dataIndx: ""},
+        //         //         // ,
+        //         //         // { title: "", dataIndx: "state", width: 30, minWidth:30, align: "center", type:'checkBoxSelection', cls: 'ui-state-default', resizable: false, sortable:false }
+        //         //     ],
+        //         //     //用户编辑单元格结束之后做的事情
+        //         //     cellSave: function (event, ui) {
+        //         //         // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+        //         //         // $.post("/baocunleibie", ui.rowData, function (data) {
+        //         //         // window.location="/zu/zuli";
+        //         //         // });
+        //         //     }
+        //         // });
+        //
+        //
+        //     });
+        // }
+    });
+</script>
+
+</body>
+</html>

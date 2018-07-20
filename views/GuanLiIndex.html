@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>黑黑租车</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link  href="/css/pqgrid.min.css" rel="stylesheet"/>
+    <link href="/css/jquery-ui.css" rel="stylesheet"/>
+    <style>
+        body{
+            background: url("/images/zu1.jpg");
+            background-size: 100%;
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default" style="margin-top: -50px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">黑黑租车</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="active"><a href="/GuanLiIndex">客户查询</a></li>
+                <li><a href="/zu/zuli">租赁登记</a></li>
+                <li><a href="/zu/guihuan">归还登记</a></li>
+                <li><a href="/zu/tongji">统计分析</a></li>
+                <li><a href="/zu/leibie">类别档案</a></li>
+                <li><a href="/zu/qiche">汽车档案</a></li>
+                <li><a href="/">退出系统</a></li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<section class="grid" style="width:1000px;">
+    <a href="/reg" >
+    <button type="button"  class="btn  btn-lg">
+        添加新用户
+    </button>
+    </a>
+    <input type="button" value="删除用户" id="shanchubtn" class="btn  btn-lg"/>
+
+    <div id="grid" style="margin-top:20px;"></div>
+    <!--表格end-->
+</section>
+
+
+
+<script src="/js/jquery-1.12.3.min.js"></script>
+<!--<script src="/js/jquery-ui.min.js"></script>-->
+<!--<script src="/js/pqgrid.min.js"></script>-->
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+    refresh();
+    $("body").append("<script src='/js/jquery-ui.min.js'>"+"</"+"script>");
+    $("body").append("<script src='/js/pqgrid.min.js'>"+"</"+"script>");
+    function refresh() {
+        //数据
+        $.get("/alluser",{z:Math.random()}, function (data) {
+            //用ajax拿到结果
+            var dataobj = data.results;
+            //配置表格
+            $("#grid").pqGrid({
+                width: 1350,
+                height: 300,
+                title: "黑黑租车",
+                resizable: false,
+                draggable: false,
+                dataModel: {
+                    data: dataobj  //填充数据
+                },
+                selectionModel: { type: 'none', subtype:'incr', cbHeader:true, cbAll:true},
+                pageModel: { type: "local", rPP: 6, strRpp: "{0}", strDisplay: "{0} to {1} of {2}" },
+                colModel: [
+                    // {title: "_id", width: 90, dataType: "string", dataIndx: "_id",editable:false},
+                    {title: "客户名字", width: 200, dataType: "string", dataIndx: "name",editable:false},
+                    {title: "性别", width: 200, dataType: "string", dataIndx: "sex",editable:false},
+                    {title: "身份证号码", width: 250, dataType: "string", dataIndx: "shenfenzheng",editable:false},
+                    {title: "手机号", width: 250, dataType: "string", dataIndx: "shoujihao"},
+                    {title: "详细住址", width: 200, dataType: "string", dataIndx: "dizhi"},
+                    {title: "星座", width: 180, dataType: "string", dataIndx: "xingzuo",editable:false},
+                    { title: "", dataIndx: "state", width: 30, minWidth:30, align: "center", type:'checkBoxSelection', cls: 'ui-state-default', resizable: false, sortable:false }
+                ],
+                //用户编辑单元格结束之后做的事情
+                cellSave: function (event, ui) {
+                    // ui.rowData能够拿到这一行的全部数据，甭废话，直接扔给服务器持久化！
+                    $.post("/baocun", ui.rowData, function (data) {
+                        // window.location="/zu/zuli";
+                    });
+                }
+            });
+
+        });
+    }
+    $("#shanchubtn").click(function(){
+        //除以2，这是因为paramquery这个框架有点小问题，会重复算tr两次
+        var amount = $("tr.pq-row-select").length / 2;
+        var boolean = confirm("确认要删除" + amount + "条信息？");
+        if(!boolean){
+            return;
+        }
+        //要删除的元素的_id的数组
+        var needToDelete = [];
+        //遍历，找到要删除的元素的_id，放入数组，集体发给模型，进行集体删除！
+        $("tr.pq-row-select").each(function(){
+            needToDelete.push($(this).find("td[pq-col-indx=2]").html());
+        });
+
+        needToDelete = _.uniq(needToDelete);
+
+        $.post("/DeleteUser2",{
+            needToDelete : JSON.stringify(needToDelete)
+        },function(data){
+            if(data.result == -1){
+                alert("删除错误！服务器故障，请联系18883248234");
+            }else{
+                alert("成功删除" + data.result + "条");
+                $("tr.pq-row-select").slideUp();
+            }
+        });
+    });
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+	"__v" : 0,
+	"_id" : ObjectId("5b1165f369ea74068cc18d6b"),
+	"dizhi" : "山西省稷山县",
+	"mima" : "14bf051807d009959b18677b216d0bea8144a4ae37da9d23e6aee73189c60e95",
+	"shenfenzheng" : "140824199904220038",
+	"shoujihao" : "13467239163",
+	"yonghuming" : "任泽鑫"
+},
+{
+"__v" : 0,
+"_id" : ObjectId("5b11666e69ea74068cc18d6c"),
+"dizhi" : "河北省阜平县",
+"mima" : "14bf051807d009959b18677b216d0bea8144a4ae37da9d23e6aee73189c60e95",
+"shenfenzheng" : "130624199711143010",
+"shoujihao" : "18211024470",
+"yonghuming" : "马春波"
+},
+{
+"__v" : 0,
+"_id" : ObjectId("5b11669669ea74068cc18d6d"),
+"dizhi" : "山西省新绛县",
+"mima" : "14bf051807d009959b18677b216d0bea8144a4ae37da9d23e6aee73189c60e95",
+"shenfenzheng" : "140825199901010015",
+"shoujihao" : "13191243616",
+"yonghuming" : "张浩"
+},
+{
+"__v" : 0,
+"_id" : ObjectId("5b11671169ea74068cc18d6e"),
+"dizhi" : "山西省稷山县",
+"mima" : "14bf051807d009959b18677b216d0bea8144a4ae37da9d23e6aee73189c60e95",
+"shenfenzheng" : "140824199904220038",
+"shoujihao" : "13191243616",
+"yonghuming" : "杨帆"
+},
+{
+"__v" : 0,
+"_id" : ObjectId("5b11673969ea74068cc18d6f"),
+"dizhi" : "山西省稷山县",
+"mima" : "14bf051807d009959b18677b216d0bea8144a4ae37da9d23e6aee73189c60e95",
+"shenfenzheng" : "140824199904220038",
+"shoujihao" : "13191243616",
+"yonghuming" : "马瑞泽"
+},
